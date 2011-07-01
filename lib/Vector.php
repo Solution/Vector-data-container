@@ -12,8 +12,21 @@
  */
 class Vector
 {
-    /** @var $list <DataType>Object */
-    private $list;
+    /**
+        * @var INTEGER constant
+        */
+    const INTEGER = "IntegerContainer";
+    
+    /**
+         * @var STRING constant
+         */
+    const STRING = "StringContainer";
+    
+    /**
+         * @var DOUBLE constant
+         */
+    const DOUBLE = "DoubleContainer";
+    
 
     /**
      * Constructor factory, create a new list for specific data type
@@ -22,22 +35,22 @@ class Vector
      * @param <type> $type
      * @return none
      */
-    function __construct($type)
+    public static function createContainer($type)
     {
         if(is_object($type))
         {
-            $this->list = new ObjectContainer(get_class($type));
+            return new ObjectContainer(get_class($type));
         }else{
             if($type !== NULL)
             {
-                $ctype = sprintf("%sContainer",$type);
-                $this->container = new $ctype;
+                return new $type;
             }else{
                 throw new InvalidArgumentException('$type is invalid parameter');
             }
         }
     }
 
+    /* Old version
     function  __call($name, $arguments)
     {
         if(method_exists($this->container, $name))
@@ -52,15 +65,18 @@ class Vector
             throw new BadMethodCallException('$name is not callable');
         }
     }
-    
+    */
     /**
      * Get object container
      * 
      * @return <type>
      */
+    /*
     public function getContainer()
     {
         return $this->container;
     }
+    
+    */
 }
 ?>

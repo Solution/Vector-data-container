@@ -11,7 +11,7 @@ require_once './lib/types/IntegerContainer.php';
 
 try{
 
-$dict = new Vector('Integer');
+$dict = Vector::createContainer(Vector::INTEGER);
 
 for($i = 1; $i<=20; $i++)
 {
@@ -20,13 +20,8 @@ for($i = 1; $i<=20; $i++)
 
 print_r($dict->getItems(array(10,15)));
 
-#$dict->add('ada');
-
 print $dict->sum().'<br />';
 
-$dict->remove(array(10,15)).'<br />';
-print $dict->getLength();
-print_r($dict->getItems());
 }catch(Exception $e)
 {
     print $e->getMessage();
