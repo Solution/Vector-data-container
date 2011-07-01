@@ -12,6 +12,25 @@
 class IntegerContainer extends BaseContainer
 {
 
+    /**
+         * Handle event when sum() is crossed
+         * @var type 
+         */
+    public $onSumCross = array();
+    
+    /**
+         * Handle event when input value crossed the limit
+         * @var type
+         */
+    public $onInputCross = array();
+    
+    /**
+         * Sum of the container
+         * @var type 
+         */
+    private $summary = 0;
+    
+    
     function __construct()
     {
         //
@@ -23,6 +42,23 @@ class IntegerContainer extends BaseContainer
         {
             $this->data[] = $item;
             ++$this->length;
+            $this->sum();
+            
+            if(count($this->onInputCross) !== 0)
+            {
+                $limits = array_keys($this->onInputCross);
+                krsort($limits);
+                
+                foreach($limits as $limit)
+                {
+                    if($item >= $limit)
+                    {
+                        call_user_func($this->onInputCross[$limit], $item);
+                        break;
+                    }
+                }
+                
+            }
         }else{
             throw new InvalidArgumentException('$item is not integer');
         }
@@ -98,6 +134,7 @@ class IntegerContainer extends BaseContainer
         {
             $val = $val + $value;
         }
+        $this->summary = $val;
       return $val;
     }
 
@@ -108,6 +145,7 @@ class IntegerContainer extends BaseContainer
         {
             $this->data[++$i] = $value;
         }
+      $this->sum();         
     }
 }
 ?>
